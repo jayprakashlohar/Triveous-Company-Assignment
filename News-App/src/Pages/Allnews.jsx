@@ -12,8 +12,7 @@ import { BsFillGrid3X3GapFill } from "react-icons/bs";
 import { FaThList } from "react-icons/fa";
 import axios from "axios";
 
-let apiKey = "60fb3e071f474bb9bf64c6929572185d";
-
+let apiKey = "ee11e6b5db2b3e69006291d314a621fb";
 function Allnews() {
   const [allnews, setAllnews] = useState([]);
   const [grid, setGrid] = useState(false);
@@ -22,7 +21,7 @@ function Allnews() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`
+          `https://gnews.io/api/v4/search?q=example&lang=en&country=us&max=50&apikey=${apiKey}`
         );
         setAllnews(response.data.articles);
         localStorage.setItem("news", JSON.stringify(response.data.articles));

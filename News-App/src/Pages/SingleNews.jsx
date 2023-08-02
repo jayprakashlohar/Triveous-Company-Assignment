@@ -84,7 +84,7 @@ function SingleNews() {
           <Image
             rounded={"md"}
             alt={"product image"}
-            src={detailnews.urlToImage}
+            src={detailnews.image}
             fit={"cover"}
             align={"center"}
             w={"100%"}
