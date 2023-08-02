@@ -1,4 +1,6 @@
-"use client";
+// "use client";
+
+import { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import {
   Button,
@@ -14,7 +16,6 @@ import {
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { signInWithPopup } from "firebase/auth";
@@ -26,23 +27,38 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
+  const [emailError, setEmailError] = useState("");
   const toast = useToast();
+
+  const validateEmail = (email) => {
+    // Regular expression for email validation
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email);
+  };
 
   const handleGoogleSignIn = async () => {
     let res = await signInWithPopup(auth, provider);
     localStorage.setItem("login", JSON.stringify({ email: res.user.email }));
-    return (window.location.href = "/");
+    return navigate("/");
   };
+
   let getregister = JSON.parse(localStorage.getItem("register")) || [];
+
   const login = () => {
+    if (!validateEmail(email)) {
+      setEmailError("Invalid email address");
+      return;
+    }
+
     let detail = getregister.find(
       (el) => el.email === email && el.password === password
     );
+
     if (detail) {
       localStorage.setItem("login", JSON.stringify({ email, password }));
       toast({
         title: "Successfully Login",
-        description: "Congrats,You are successfully logged In",
+        description: "Congrats, You are successfully logged In",
         status: "success",
         duration: 9000,
         isClosable: true,
@@ -58,6 +74,7 @@ export default function Login() {
       });
     }
   };
+
   return (
     <Flex
       minH={"100vh"}
@@ -84,8 +101,16 @@ export default function Login() {
             placeholder="your-email@example.com"
             _placeholder={{ color: "gray.500" }}
             type="email"
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setEmailError(""); // Clear email error when user types
+            }}
           />
+          {emailError && (
+            <Text fontSize="sm" color="red.500">
+              {emailError}
+            </Text>
+          )}
         </FormControl>
         <FormControl id="password" isRequired>
           <FormLabel>Password</FormLabel>

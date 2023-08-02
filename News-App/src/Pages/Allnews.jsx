@@ -22,7 +22,7 @@ function Allnews() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`
+          `http://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`
         );
         setAllnews(response.data.articles);
         localStorage.setItem("news", JSON.stringify(response.data.articles));

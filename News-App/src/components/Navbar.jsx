@@ -1,5 +1,4 @@
-"use client";
-
+import React from "react";
 import {
   Box,
   Flex,
@@ -14,7 +13,7 @@ import { Link } from "react-router-dom";
 
 const Links = [
   JSON.parse(localStorage.getItem("login"))?.email
-    ? { name: JSON.parse(localStorage.getItem("login"))?.email, page: "" }
+    ? { name: "Logout", action: () => handleLogout(), page: "/" }
     : { name: "Login", page: "/login" },
   !JSON.parse(localStorage.getItem("login"))?.email && {
     name: "Register",
@@ -24,13 +23,26 @@ const Links = [
   { name: "All News", page: "/" },
 ];
 
+const handleLogout = () => {
+  localStorage.removeItem("login");
+};
+
 export default function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
       <Box px={4} bg="black">
-        <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
+        <Flex
+          h={16}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+          maxWidth="100%"
+          mx="auto"
+        >
+          <Box fontWeight={"extrabold"} color="white" fontSize="25px">
+            <Link to={"/"}>News-App</Link>
+          </Box>
           <IconButton
             size={"md"}
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
@@ -38,58 +50,64 @@ export default function Navbar() {
             display={{ md: "none" }}
             onClick={isOpen ? onClose : onOpen}
           />
-          <HStack
-            spacing={8}
-            alignItems={"center"}
-            fontWeight={"extrabold"}
-            color={"white"}
-          >
-            <Link to={"/"}>
-              <Box fontWeight={"extrabold"}>News-App</Box>
-            </Link>
-            <HStack
-              as={"nav"}
-              spacing={4}
-              display={{ base: "none", md: "flex" }}
-            >
-              {Links?.map((link) => (
-                <Link to={link.page}>
-                  {" "}
+          <HStack as={"nav"} display={{ base: "none", md: "flex" }}>
+            {Links?.map((link) =>
+              link.name === "Logout" ? (
+                <Button
+                  key={link.name}
+                  onClick={link.action}
+                  bg={"black"}
+                  color={"white"}
+                  fontFamily="sans-serif"
+                  _hover={{ background: "none", textDecoration: "underline" }}
+                >
+                  {link.name}
+                </Button>
+              ) : (
+                <Link key={link.name} to={link.page}>
                   <Button
-                    key={link.name}
-                    _hover={{ color: "gray" }}
                     bg={"black"}
                     color={"white"}
                     fontFamily="sans-serif"
-                    _hover={{ background: "none" }}
+                    _hover={{ background: "none", textDecoration: "underline" }}
                   >
                     {link.name}
                   </Button>
                 </Link>
-              ))}
-            </HStack>
+              )
+            )}
           </HStack>
         </Flex>
 
         {isOpen ? (
           <Box pb={4} display={{ md: "none" }} fontWeight={"extrabold"}>
             <Stack as={"nav"} spacing={4}>
-              {Links.map((link) => (
-                <Link to={link.page}>
-                  {" "}
+              {Links?.map((link) =>
+                link.name === "Logout" ? (
                   <Button
                     key={link.name}
+                    onClick={link.action}
                     _hover={{ color: "gray" }}
                     bg={"black"}
                     color={"white"}
                   >
-                    {link.name === "Login" &&
-                    JSON.parse(localStorage.getItem("login")).email
-                      ? JSON.parse(localStorage.getItem("login")).email
-                      : link.name}
+                    {link.name}
                   </Button>
-                </Link>
-              ))}
+                ) : (
+                  <Link key={link.name} to={link.page}>
+                    <Button
+                      _hover={{ color: "gray" }}
+                      bg={"black"}
+                      color={"white"}
+                    >
+                      {link.name === "Login" &&
+                      JSON.parse(localStorage.getItem("login")).email
+                        ? JSON.parse(localStorage.getItem("login")).email
+                        : link.name}
+                    </Button>
+                  </Link>
+                )
+              )}
             </Stack>
           </Box>
         ) : null}

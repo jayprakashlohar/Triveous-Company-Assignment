@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   Box,
-  chakra,
   Container,
   Stack,
   Text,
@@ -13,24 +12,22 @@ import {
   SimpleGrid,
   StackDivider,
   useColorModeValue,
-  VisuallyHidden,
-  List,
-  ListItem,
   Link,
   useToast,
 } from "@chakra-ui/react";
-import { MdLocalShipping } from "react-icons/md";
 import { useParams } from "react-router-dom";
 import { FaRegHeart } from "react-icons/fa";
 import { BsHeartFill } from "react-icons/bs";
+
 function SingleNews() {
   const { name } = useParams();
   const toast = useToast();
   const [like, setLike] = useState(false);
   let allnews = JSON.parse(localStorage.getItem("news")) || [];
   let detailnews = allnews?.find((el) => el.source.name === name);
-  console.log(detailnews, "details");
+
   let addliked = JSON.parse(localStorage.getItem("fav")) || [];
+
   useEffect(() => {
     let alreadyadded = addliked.find(
       (el) => el.source.name === detailnews.source.name
@@ -53,7 +50,7 @@ function SingleNews() {
       toast({
         title: "Successfully Removed to Favourite",
         description: "Removed to Favourite",
-        status: "success",
+        status: "error",
         duration: 9000,
         isClosable: true,
       });

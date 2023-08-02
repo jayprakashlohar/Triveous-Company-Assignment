@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 
 import {
   Button,
@@ -14,12 +14,19 @@ import {
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
+
 import { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { Link, Navigate, redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
-  const [register, setRegister] = useState({ email: "", password: "" });
+  let navigate = useNavigate();
+  const [register, setRegister] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
   const [show, setShow] = useState(false);
   const toast = useToast();
 
@@ -27,19 +34,28 @@ export default function Register() {
     const { name, value } = e.target;
     setRegister({ ...register, [name]: value });
   };
+
+  // Update email validation function
+  const isEmailValid = (email) => {
+    // Regular expression for email format validation
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+  };
+
   let getregister = JSON.parse(localStorage.getItem("register")) || [];
   const registered = () => {
     let alreadexist = getregister.find((el) => el.email === register.email);
     if (alreadexist) {
       toast({
-        title: "Account Aleardy Exist",
-        description: "This email already register. Please login your account",
+        title: "Account Already Exists",
+        description:
+          "This email is already registered. Please login to your account.",
         status: "error",
         duration: 9000,
         isClosable: true,
       });
-      return (window.location.href = "/login");
-    } else if (register.password.length >= 6) {
+      return navigate("/login");
+    } else if (register.password.length >= 6 && isEmailValid(register.email)) {
       getregister.push(register);
       localStorage.setItem("register", JSON.stringify(getregister));
       toast({
@@ -49,16 +65,26 @@ export default function Register() {
         duration: 9000,
         isClosable: true,
       });
-      setRegister({ email: "", password: "" });
-      return (window.location.href = "/login");
+      setRegister({ name: "", email: "", password: "" });
+      return navigate("/login");
     } else {
-      toast({
-        title: "Password",
-        description: "Password should be atleast 6 Characters",
-        status: "info",
-        duration: 9000,
-        isClosable: true,
-      });
+      if (!isEmailValid(register.email)) {
+        toast({
+          title: "Invalid Email",
+          description: "Please enter a valid email address.",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: "Password",
+          description: "Password should be at least 6 characters.",
+          status: "info",
+          duration: 9000,
+          isClosable: true,
+        });
+      }
     }
   };
 
@@ -82,6 +108,18 @@ export default function Register() {
         <Heading lineHeight={1.1} fontSize={{ base: "2xl", md: "3xl" }}>
           Sign Up
         </Heading>
+
+        <FormControl id="name" isRequired>
+          <FormLabel>Name</FormLabel>
+          <Input
+            name="name"
+            value={register?.name}
+            placeholder="Enter your name"
+            _placeholder={{ color: "gray.500" }}
+            type="text"
+            onChange={onchange}
+          />
+        </FormControl>
         <FormControl id="email" isRequired>
           <FormLabel>Email address</FormLabel>
           <Input
@@ -126,7 +164,7 @@ export default function Register() {
         </Stack>
         <Stack pt={6}>
           <Text align={"center"}>
-            Already a User ?{" "}
+            Already a User?{" "}
             <Link to="/login" style={{ color: "#099ded" }}>
               Login
             </Link>

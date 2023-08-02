@@ -13,7 +13,7 @@ function Favourite() {
   let fav = JSON.parse(localStorage.getItem("fav")) || [];
   return (
     <Box>
-      <Heading>Favourite Articles</Heading>
+      <Heading p="20px">Favourite Articles</Heading>
       <Grid templateColumns="repeat(1, 1fr)" shadow="base" w={"90%"} m={"auto"}>
         {fav.length > 0 ? (
           fav?.map((el) => (
@@ -31,7 +31,7 @@ function Favourite() {
             </UnorderedList>
           ))
         ) : (
-          <Text>No Favourite</Text>
+          <Text p="20px">No Favourite</Text>
         )}
       </Grid>
     </Box>
