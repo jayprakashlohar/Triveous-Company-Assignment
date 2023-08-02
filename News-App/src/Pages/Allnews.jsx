@@ -15,10 +15,12 @@ function Allnews() {
   const [allnews, setAllnews] = useState([]);
   const [grid, setGrid] = useState(false);
   const [total, setTotal] = useState(0);
-  const api = `https://newsapi.org/v2/top-headlines?country=us&apiKey=0593ba556f5d4d33978b00fa62d15097`;
+
   useEffect(() => {
     const getdata = async () => {
-      let res = await fetch(api);
+      let res = await fetch(
+        `https://newsapi.org/v2/top-headlines?country=us&apiKey=60fb3e071f474bb9bf64c6929572185d`
+      );
       let data = await res.json();
       setAllnews(data.articles);
       setTotal(data.articles.length);
