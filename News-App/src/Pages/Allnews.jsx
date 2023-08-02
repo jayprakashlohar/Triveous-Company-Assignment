@@ -50,7 +50,11 @@ function Allnews() {
 
       {!grid && (
         <Grid
-          templateColumns="repeat(2, 1fr)"
+          templateColumns={{
+            base: "repeat(1, 1fr)",
+            md: "repeat(2, 1fr)",
+            lg: "repeat(2, 1fr)",
+          }}
           shadow="base"
           w={"90%"}
           m={"auto"}
@@ -75,7 +79,11 @@ function Allnews() {
 
       {grid && (
         <Grid
-          templateColumns="repeat(4, 1fr)"
+          templateColumns={{
+            base: "repeat(1, 1fr)",
+            md: "repeat(2, 1fr)",
+            lg: "repeat(4, 1fr)",
+          }}
           shadow="base"
           w={"90%"}
           m={"auto"}
