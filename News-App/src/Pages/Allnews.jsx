@@ -10,24 +10,30 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { BsFillGrid3X3GapFill } from "react-icons/bs";
 import { FaThList } from "react-icons/fa";
+import axios from "axios";
+
+let apiKey = "60fb3e071f474bb9bf64c6929572185d";
 
 function Allnews() {
   const [allnews, setAllnews] = useState([]);
   const [grid, setGrid] = useState(false);
-  const [total, setTotal] = useState(0);
 
   useEffect(() => {
-    const getdata = async () => {
-      let res = await fetch(
-        `https://newsapi.org/v2/top-headlines?country=us&apiKey=60fb3e071f474bb9bf64c6929572185d`
-      );
-      let data = await res.json();
-      setAllnews(data.articles);
-      setTotal(data.articles.length);
-      localStorage.setItem("news", JSON.stringify(data.articles));
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`
+        );
+        setAllnews(response.data.articles);
+        localStorage.setItem("news", JSON.stringify(response.data.articles));
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
-    getdata();
+
+    fetchData();
   }, []);
+
   return (
     <Box>
       <Box
