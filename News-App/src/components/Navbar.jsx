@@ -12,7 +12,6 @@ import {
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 
-
 const Links = [
   JSON.parse(localStorage.getItem("login"))?.email
     ? { name: JSON.parse(localStorage.getItem("login"))?.email, page: "" }
@@ -46,14 +45,14 @@ export default function Navbar() {
             color={"white"}
           >
             <Link to={"/"}>
-              <Box fontWeight={"extrabold"}>Home</Box>
+              <Box fontWeight={"extrabold"}>News-App</Box>
             </Link>
             <HStack
               as={"nav"}
               spacing={4}
               display={{ base: "none", md: "flex" }}
             >
-              {Links.map((link) => (
+              {Links?.map((link) => (
                 <Link to={link.page}>
                   {" "}
                   <Button
@@ -61,6 +60,8 @@ export default function Navbar() {
                     _hover={{ color: "gray" }}
                     bg={"black"}
                     color={"white"}
+                    fontFamily="sans-serif"
+                    _hover={{ background: "none" }}
                   >
                     {link.name}
                   </Button>

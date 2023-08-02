@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 
 function Authentication({children}) {
 let auth=JSON.parse(localStorage.getItem("login"))||{};
-console.log(auth,"auth")
+
 if(auth.email){
   return children
 }

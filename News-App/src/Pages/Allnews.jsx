@@ -8,6 +8,8 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { BsFillGrid3X3GapFill } from "react-icons/bs";
+import { FaThList } from "react-icons/fa";
 
 function Allnews() {
   const [allnews, setAllnews] = useState([]);
@@ -21,20 +23,35 @@ function Allnews() {
       setAllnews(data.articles);
       setTotal(data.articles.length);
       localStorage.setItem("news", JSON.stringify(data.articles));
-      console.log(data.articles.length, Math.ceil((total - 1) / 2));
     };
     getdata();
   }, []);
   return (
     <Box>
-      <Heading>Top Latest News</Heading>
-      <Button onClick={() => setGrid((grid) => !grid)}>
-        {grid ? "GRID VIEW" : "LIST VIEW"}
-      </Button>
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        w="90%"
+        m="auto"
+        p="20px"
+      >
+        <Heading fontSize="30px" padding="18px" fontFamily="sans-serif">
+          Top Latest News
+        </Heading>
+        <Button
+          colorScheme="teal"
+          mb="10px"
+          onClick={() => setGrid((grid) => !grid)}
+        >
+          {grid ? <BsFillGrid3X3GapFill /> : <FaThList />}
+        </Button>
+      </Box>
+
       {!grid && (
         <Grid
           templateColumns="repeat(2, 1fr)"
-          border={"3px solid black"}
+          shadow="base"
           w={"90%"}
           m={"auto"}
         >
@@ -44,21 +61,22 @@ function Allnews() {
                 gap={10}
                 w="90%"
                 m={"5"}
-                p={"5"}
-                border={"1px solid black"}
+                p={"8"}
+                shadow="lg"
                 color={"blue"}
               >
-                <ListItem textAlign={"justify"}>
+                <ListItem textAlign={"justify"} fontFamily="sans-serif">
                   <Link to={`/detailnews/${el.source.name}`}>{el.title}</Link>
                 </ListItem>
               </UnorderedList>
             ))}
         </Grid>
       )}
+
       {grid && (
         <Grid
           templateColumns="repeat(4, 1fr)"
-          border={"2px solid black"}
+          shadow="base"
           w={"90%"}
           m={"auto"}
         >
@@ -69,10 +87,10 @@ function Allnews() {
                 w="90%"
                 m={"5"}
                 p={"5"}
-                border={"1px solid black"}
+                shadow="lg"
                 color={"blue"}
               >
-                <ListItem textAlign={"justify"}>
+                <ListItem textAlign={"justify"} fontFamily="sans-serif">
                   <Link to={`/detailnews/${el.source.name}`}>{el.title}</Link>
                 </ListItem>
               </UnorderedList>

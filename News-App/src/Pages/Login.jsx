@@ -19,9 +19,10 @@ import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "./firebase";
-
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  let navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
@@ -30,7 +31,6 @@ export default function Login() {
   const handleGoogleSignIn = async () => {
     let res = await signInWithPopup(auth, provider);
     localStorage.setItem("login", JSON.stringify({ email: res.user.email }));
-    console.log("Logged in:", res.user.email);
     return (window.location.href = "/");
   };
   let getregister = JSON.parse(localStorage.getItem("register")) || [];
@@ -47,7 +47,7 @@ export default function Login() {
         duration: 9000,
         isClosable: true,
       });
-      return (window.location.href = "/");
+      return navigate("/");
     } else {
       toast({
         title: "Account Does not exist",
@@ -76,7 +76,7 @@ export default function Login() {
         my={12}
       >
         <Heading lineHeight={1.1} fontSize={{ base: "2xl", md: "3xl" }}>
-          Login
+          Sign In
         </Heading>
         <FormControl id="email" isRequired>
           <FormLabel>Email address</FormLabel>

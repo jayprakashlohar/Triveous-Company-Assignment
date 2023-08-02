@@ -14,23 +14,18 @@ function Favourite() {
   return (
     <Box>
       <Heading>Favourite Articles</Heading>
-      <Grid
-        templateColumns="repeat(1, 1fr)"
-        border={"3px solid black"}
-        w={"90%"}
-        m={"auto"}
-      >
+      <Grid templateColumns="repeat(1, 1fr)" shadow="base" w={"90%"} m={"auto"}>
         {fav.length > 0 ? (
-          fav.map((el) => (
+          fav?.map((el) => (
             <UnorderedList
               gap={10}
               w="90%"
               m={"5"}
               p={"5"}
-              border={"1px solid black"}
+              shadow="lg"
               color={"blue"}
             >
-              <ListItem textAlign={"justify"}>
+              <ListItem textAlign={"justify"} fontFamily="sans-serif">
                 <Link to={`/detailnews/${el.source.name}`}>{el.title}</Link>
               </ListItem>
             </UnorderedList>

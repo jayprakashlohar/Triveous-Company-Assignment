@@ -22,6 +22,7 @@ export default function Register() {
   const [register, setRegister] = useState({ email: "", password: "" });
   const [show, setShow] = useState(false);
   const toast = useToast();
+
   const onchange = (e) => {
     const { name, value } = e.target;
     setRegister({ ...register, [name]: value });
@@ -38,7 +39,7 @@ export default function Register() {
         isClosable: true,
       });
       return (window.location.href = "/login");
-    } else if (register.password.length >= 8) {
+    } else if (register.password.length >= 6) {
       getregister.push(register);
       localStorage.setItem("register", JSON.stringify(getregister));
       toast({
@@ -53,14 +54,14 @@ export default function Register() {
     } else {
       toast({
         title: "Password",
-        description: "Password should be atleast 8 Characters",
+        description: "Password should be atleast 6 Characters",
         status: "info",
         duration: 9000,
         isClosable: true,
       });
     }
   };
-  console.log(register, getregister);
+
   return (
     <Flex
       minH={"100vh"}
@@ -79,7 +80,7 @@ export default function Register() {
         my={12}
       >
         <Heading lineHeight={1.1} fontSize={{ base: "2xl", md: "3xl" }}>
-          Create new Account
+          Sign Up
         </Heading>
         <FormControl id="email" isRequired>
           <FormLabel>Email address</FormLabel>
