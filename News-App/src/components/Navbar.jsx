@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Flex,
@@ -7,28 +7,39 @@ import {
   Button,
   useDisclosure,
   Stack,
+  useToast,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 
-const Links = [
-  JSON.parse(localStorage.getItem("login"))?.email
-    ? { name: "Logout", action: () => handleLogout(), page: "/" }
-    : { name: "Login", page: "/login" },
-  !JSON.parse(localStorage.getItem("login"))?.email && {
-    name: "Register",
-    page: "/register",
-  },
-  { name: "Favourite Articles", page: "/favouritenews" },
-  { name: "All News", page: "/" },
-];
-
-const handleLogout = () => {
-  localStorage.removeItem("login");
-};
-
 export default function Navbar() {
+  const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [update, setUpdate] = useState(0);
+
+  const Links = [
+    JSON.parse(localStorage.getItem("login"))?.email
+      ? { name: "Logout", action: () => handleLogout(), page: "/" }
+      : { name: "Login", page: "/login" },
+    !JSON.parse(localStorage.getItem("login"))?.email && {
+      name: "Register",
+      page: "/register",
+    },
+    { name: "Favourite Articles", page: "/favouritenews" },
+    { name: "All News", page: "/" },
+  ];
+
+  const handleLogout = () => {
+    localStorage.removeItem("login");
+    toast({
+      title: "Logout successfully",
+      status: "error",
+      duration: 6000,
+      isClosable: true,
+      position: "top",
+    });
+    setUpdate((prev) => prev + 1);
+  };
 
   return (
     <>

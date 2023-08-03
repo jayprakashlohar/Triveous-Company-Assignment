@@ -63,7 +63,8 @@ export default function Login() {
         duration: 9000,
         isClosable: true,
       });
-      return navigate("/");
+      // return navigate("/");
+      return (window.location.href = "/");
     } else {
       toast({
         title: "Account Does not exist",
@@ -98,13 +99,15 @@ export default function Login() {
         <FormControl id="email" isRequired>
           <FormLabel>Email address</FormLabel>
           <Input
-            placeholder="your-email@example.com"
+            placeholder="Your-email@example.com"
             _placeholder={{ color: "gray.500" }}
             type="email"
             onChange={(e) => {
               setEmail(e.target.value);
-              setEmailError(""); // Clear email error when user types
+              setEmailError("");
             }}
+            variant="flushed"
+            required
           />
           {emailError && (
             <Text fontSize="sm" color="red.500">
@@ -116,42 +119,48 @@ export default function Login() {
           <FormLabel>Password</FormLabel>
           <InputGroup>
             <Input
+              placeholder="Enter your password"
               type={show ? "text" : "password"}
               onChange={(e) => setPassword(e.target.value)}
+              variant="flushed"
             />
-            <InputRightElement h={"full"}>
-              <Button
-                variant={"ghost"}
-                onClick={() => setShow((showPassword) => !showPassword)}
-              >
-                {show ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
-              </Button>
+            <InputRightElement
+              h={"full"}
+              cursor="pointer"
+              onClick={() => setShow((showPassword) => !showPassword)}
+            >
+              {show ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
             </InputRightElement>
           </InputGroup>
         </FormControl>
         <Stack spacing={6}>
           <Button
-            bg={"blue.400"}
-            color={"white"}
+            borderRadius="5px"
+            mt="10px"
+            bg="#000"
+            color="#ffff"
             _hover={{
-              bg: "blue.500",
+              bg: "black.100",
             }}
             onClick={login}
           >
             Login
           </Button>
         </Stack>
-        <Stack pt={6}>
-          <Text align={"center"}>
+        <Stack pt={4}>
+          <Text align={"center"} fontSize="14px" fontWeight="500">
             New User ?{" "}
             <Link to="/register" style={{ color: "#099ded" }}>
               Register
             </Link>
           </Text>
         </Stack>
-        <Button onClick={handleGoogleSignIn}>
-          <Text>LogIn With </Text>
-          <FcGoogle />
+        <Button
+          onClick={handleGoogleSignIn}
+          rightIcon={<FcGoogle />}
+          variant="solid"
+        >
+          LogIn With
         </Button>
       </Stack>
     </Flex>
