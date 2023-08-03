@@ -72,6 +72,6 @@
 # Deployed Link
 
 ### Frontend
-https://adda-orignal.netlify.app/
+https://news-app-with-firebase.netlify.app/login
 
 
